@@ -1,4 +1,4 @@
-# Day 1
+# Day 2
 ### Part 1
 This was pretty easy, nothing too tricky. Every year I'm reminded how parsing the input string is the most
 annoying part, especially for the earlier questions.
