@@ -1,4 +1,4 @@
-# Day 4
+# Day 6
 ### Part 1
 Super easy day, their difficult is fluctuating a lot
 

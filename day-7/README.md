@@ -1,4 +1,4 @@
-# Day 4
+# Day 7
 ### Part 1
 This wasn't too hard, I might have written more code than necessary. I wanted to do it by implementing rust traits 
 which add a lot of extra code. It could be optimized because I'm recomputing the type of the hand every comparison,

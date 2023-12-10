@@ -1,4 +1,4 @@
-# Day 4
+# Day 5
 ### Part 1
 This wasn't too bad, I took a bit of time thinking about the data structure, my initial intuition was to build an
 actual go map for all the values in the range but looking at the actual puzzle input that would be crazy.

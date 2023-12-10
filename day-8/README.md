@@ -1,4 +1,4 @@
-# Day 4
+# Day 8
 ### Part 1
 This was quite simple, I initially thought I'd use recursion because it seemed like graph traversal which is why I used
 golang, rust is quite annoying with recursion. I ended up using a map instead of traversing recursively which helped a lot
