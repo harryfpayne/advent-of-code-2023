@@ -2,72 +2,38 @@ package main
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 )
 
-type Vector3 struct {
-	x, y, z float64
-}
-
-type Vector2 struct {
-	x, y float64
-}
-
-func (v Vector2) InBounds(min, max float64) bool {
-	return v.x >= min && v.x <= max && v.y >= min && v.y <= max
-}
-
-type Hailstone struct {
-	position Vector3
-	velocity Vector3
-}
-
-func (h Hailstone) String() string {
-	return fmt.Sprintf("%v, %v, %v @ %v, %v, %v", h.position.x, h.position.y, h.position.z, h.velocity.x, h.velocity.y, h.velocity.z)
-}
-
-func (h Hailstone) Intersects(o Hailstone) (Vector2, bool) {
-	a := Vector2{h.velocity.x, h.velocity.y}
-	b := Vector2{o.velocity.x, o.velocity.y}
-	c := Vector2{o.position.x - h.position.x, o.position.y - h.position.y}
-
-	angle := CrossProduct(a, b)
-	if angle == 0 { // Parallel
-		return Vector2{}, false
-	}
-
-	t := CrossProduct(c, b) / angle
-	return Vector2{h.position.x + h.velocity.x*t, h.position.y + h.velocity.y*t}, true
-}
-
-func CrossProduct(a, b Vector2) float64 {
-	return (a.x * b.y) - (a.y * b.x)
-}
-
-func (h Hailstone) IsInFuture(point Vector2) bool {
-	dx := point.x - h.position.x
-	dy := point.y - h.position.y
-	inXFuture := (dx > 0) == (h.velocity.x > 0)
-	inYFuture := (dy > 0) == (h.velocity.y > 0)
-	return inXFuture && inYFuture
-}
-
+const max = float64(400000000000000) // float64(27)
+const min = float64(200000000000000) // float64(7)
 func main() {
-	max := float64(400000000000000) // 27
-	min := float64(200000000000000) // 7
 	hailstones := Parse(PUZZLE)
-	intersections := 0
-	for i := 0; i < len(hailstones); i++ {
-		for j := i + 1; j < len(hailstones); j++ {
-			if point, ok := hailstones[i].Intersects(hailstones[j]); ok {
-				if point.InBounds(min, max) {
-					if hailstones[i].IsInFuture(point) && hailstones[j].IsInFuture(point) {
-						intersections++
-					}
-				}
-			}
+	intersections := Part1(hailstones)
+	fmt.Println("Part 1:", intersections)
+	positionSum := Part2(hailstones)
+	fmt.Println("Part 2:", positionSum)
+}
+
+func findMatchingVel(dvel, pv int) []int {
+	match := []int{}
+	for v := -1000; v < 1000; v++ {
+		if v != pv && dvel%(v-pv) == 0 {
+			match = append(match, v)
 		}
 	}
+	return match
+}
+
+func getIntersect(a, b []int) []int {
+	result := []int{}
+	for _, val := range a {
+		if slices.Contains(b, val) {
+			result = append(result, val)
+		}
+	}
+	return result
 }
 
 func Parse(str string) []Hailstone {
